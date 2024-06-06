@@ -1,12 +1,12 @@
 "use client";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
-import interactionPligin, {
+import interactionPlugin, {
   Draggable,
   DropArg,
 } from "@fullcalendar/interaction";
 import timeGridPlugin from "@fullcalendar/timegrid";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 // TS 型別定義
 interface Event {
@@ -24,21 +24,35 @@ export default function Home() {
     { title: "event 4", id: "4" },
     { title: "event 5", id: "5" },
   ]);
-  
+
   // 當型別較複雜時用< > 來標示，此處表示 Array Object (initializes a state variable allEvents as an empty array of Event objects)
-  const [allEvents, setAllEvents] = useState<Event[]>([]); 
-  
+  const [allEvents, setAllEvents] = useState<Event[]>([]);
+
   // 較簡單的變數類型可不需要宣告型別 (When the type can be inferred or isn't complex, you don't need to use angle brackets)
-  const [showModal, setShowModal] = useState(false); 
+  const [showModal, setShowModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [idToDetete, setIdToDelete] = useState<Number | null>(null);
   const [newEvent, setNewEvent] = useState<Event>({
-    title:'',
-    start: '',
+    title: "",
+    start: "",
     allDay: false,
-    id: 0
-  })
-  
+    id: 0,
+  });
+
+  useEffect(() => {
+    let draggableEl = document.getElementById("draggable-el");
+    if (draggableEl) {
+      new Draggable(draggableEl, {
+        itemSelector: ".fc-event",
+        eventData: function (eventEl) {
+          let title = eventEl.getAttribute("title");
+          let id = eventEl.getAttribute("id");
+          let start = eventEl.getAttribute("start");
+          return { title, id, start };
+        },
+      });
+    }
+  }, []);
 
   const handleDateClick = () => {};
 
@@ -51,10 +65,10 @@ export default function Home() {
       <nav className="flex justify-between mb-12 border-b border-violet-100 p-4">
         <h1 className="font-bold text-2xl text-gray-700">Calendar</h1>
       </nav>
-      <main className="flex min-h-screen flex-col-2 items-center justify-between p-24">
+      <main className="flex min-h-screen flex-col items-center justify-between p-24">
         <div className="col-span-8">
           <FullCalendar
-            plugins={[dayGridPlugin, interactionPligin, timeGridPlugin]}
+            plugins={[dayGridPlugin, interactionPlugin, timeGridPlugin]}
             headerToolbar={{
               left: "prev next today",
               center: "title",
@@ -66,9 +80,9 @@ export default function Home() {
             droppable={true}
             selectable={true}
             selectMirror={true}
-            dateClick={handleDateClick}
-            drop={(data) => addEvent(data)}
-            eventClick={(data) => handleDeleteModal(data)}
+            // dateClick={handleDateClick}
+            // drop={(data) => addEvent(data)}
+            // eventClick={(data) => handleDeleteModal(data)}
           />
         </div>
         <div
