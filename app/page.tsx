@@ -9,7 +9,6 @@ import timeGridPlugin from "@fullcalendar/timegrid";
 import { Fragment, useEffect, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { CheckIcon, ExclamationTriangleIcon } from "@heroicons/react/20/solid";
-import { EventSourceInput } from "@fullcalendar/core/index.js";
 
 // TS 型別定義
 interface Event {
