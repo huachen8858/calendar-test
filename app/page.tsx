@@ -56,6 +56,7 @@ export default function Home() {
     }
   }, []);
 
+  // TS: arg 的型別被定義為一個物件
   const handleDateClick = (arg: { date: Date; allDay: boolean }) => {
     setNewEvent({
       ...newEvent,
@@ -67,6 +68,7 @@ export default function Home() {
     setShowModal(true);
   };
 
+  // TS: data 的型別被定義為 DropArg, DropArg 是從 @fullcalendar/interaction 模組中導入的型別，包括拖放操作中的相關屬性
   const addEvent = (data: DropArg) => {
     const event = {
       newEvent,
@@ -104,6 +106,8 @@ export default function Home() {
     setIdToDelete(null);
   };
 
+  // TS: e 的型別被定義為 React.ChangeEvent<HTMLInputElement>
+  // React.ChangeEvent<HTMLInputElement> 是 React 中用來表示表單元素變更事件的型別，特別是 HTMLInputElement
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     setNewEvent({
       ...newEvent,
@@ -111,6 +115,8 @@ export default function Home() {
     });
   };
 
+  // TS: e 的型別被定義為 React.FormEvent<HTMLFormElement>
+  // React.FormEvent<HTMLFormElement> 是 React 中用來表示表單提交事件的型別，特別是 HTMLFormElement
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setAllEvents([...allEvents, newEvent]);
